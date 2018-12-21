@@ -1,0 +1,40 @@
+== Info: Could not resolve host: 
+== Info: Closing connection 0
+== Info:   Trying 93.104.215.239...
+== Info: TCP_NODELAY set
+== Info: Connected to 93.104.215.239 (93.104.215.239) port 8013 (#1)
+=> Send header, 93 bytes (0x5d)
+0000: 47 45 54 20 2f 75 70 46 72 6f 6d 52 61 73 70 20 GET /upFromRasp 
+0010: 48 54 54 50 2f 31 2e 31 0d 0a 48 6f 73 74 3a 20 HTTP/1.1..Host: 
+0020: 39 33 2e 31 30 34 2e 32 31 35 2e 32 33 39 3a 38 93.104.215.239:8
+0030: 30 31 33 0d 0a 55 73 65 72 2d 41 67 65 6e 74 3a 013..User-Agent:
+0040: 20 63 75 72 6c 2f 37 2e 35 32 2e 31 0d 0a 41 63  curl/7.52.1..Ac
+0050: 63 65 70 74 3a 20 2a 2f 2a 0d 0a 0d 0a          cept: */*....
+<= Recv header, 33 bytes (0x21)
+0000: 48 54 54 50 2f 31 2e 31 20 34 30 35 20 4d 65 74 HTTP/1.1 405 Met
+0010: 68 6f 64 20 4e 6f 74 20 41 6c 6c 6f 77 65 64 0d hod Not Allowed.
+0020: 0a                                              .
+<= Recv header, 25 bytes (0x19)
+0000: 53 65 72 76 65 72 3a 20 67 75 6e 69 63 6f 72 6e Server: gunicorn
+0010: 2f 31 39 2e 37 2e 31 0d 0a                      /19.7.1..
+<= Recv header, 37 bytes (0x25)
+0000: 44 61 74 65 3a 20 54 75 65 2c 20 30 36 20 4e 6f Date: Tue, 06 No
+0010: 76 20 32 30 31 38 20 32 33 3a 32 33 3a 34 30 20 v 2018 23:23:40 
+0020: 47 4d 54 0d 0a                                  GMT..
+<= Recv header, 19 bytes (0x13)
+0000: 43 6f 6e 6e 65 63 74 69 6f 6e 3a 20 63 6c 6f 73 Connection: clos
+0010: 65 0d 0a                                        e..
+<= Recv header, 19 bytes (0x13)
+0000: 63 6f 6e 74 65 6e 74 2d 6c 65 6e 67 74 68 3a 20 content-length: 
+0010: 30 0d 0a                                        0..
+<= Recv header, 47 bytes (0x2f)
+0000: 63 6f 6e 74 65 6e 74 2d 74 79 70 65 3a 20 61 70 content-type: ap
+0010: 70 6c 69 63 61 74 69 6f 6e 2f 6a 73 6f 6e 3b 20 plication/json; 
+0020: 63 68 61 72 73 65 74 3d 55 54 46 2d 38 0d 0a    charset=UTF-8..
+<= Recv header, 22 bytes (0x16)
+0000: 61 6c 6c 6f 77 3a 20 50 4f 53 54 2c 20 4f 50 54 allow: POST, OPT
+0010: 49 4f 4e 53 0d 0a                               IONS..
+<= Recv header, 2 bytes (0x2)
+0000: 0d 0a                                           ..
+== Info: Curl_http_done: called premature == 0
+== Info: Closing connection 1

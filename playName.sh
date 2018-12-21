@@ -1,0 +1,1 @@
+ffplay http://192.168.1.97:8091/test.mjpg  -x 200 -y 200
