@@ -1,5 +1,5 @@
 import bluetooth
-import subprocess 
+import subprocess
 import requests
 import datetime
 
@@ -19,7 +19,7 @@ import json
 
 def obtenerFecha():
 	now = datetime.datetime.now()
-	#print "Fecha completa>"+str(now) 
+	#print "Fecha completa>"+str(now)
 	dia = now.day
 	mes = now.month
 	anno = now.year
@@ -29,7 +29,7 @@ def obtenerFecha():
 
 	return str(dia)+"_"+str(mes)+"_"+str(anno)+"_"+str(hora)+"_"+str(minuto)+"_"+str(segundo)
 
- 
+
 server_sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
 valor = ""
 port = 1
@@ -302,7 +302,7 @@ while True:
 			#fileF = open("playName.txt","w") 
 			#fileF.write(urlFinal) 
 			#fileF.close() 
-			time.sleep(3)
+			time.sleep(2)
 			getIPLocal = subprocess.check_output(["hostname", "-I"]) 
 			getIPLocal =getIPLocal.rstrip("\n")
 			getIPLocalF =(getIPLocal)[:-1]  
@@ -368,14 +368,14 @@ while True:
 				urlFinal="http://"+ str(getIPLocalF) +":8091/test.mjpg"
 			print   (urlFinal)
 			client_sock.send("Grabando...")		                      
-			grabarStreaming = subprocess.check_output("avconv -i "+ urlFinal +" -threads 2 -s 320x240  -async 1 -t 00:00:"+duracion+" "+recordNameFull,stderr=subprocess.STDOUT,shell=True)			
-			
-			#grabarStreaming = subprocess.check_output("avconv -i "+ urlFinal +" -threads 2 -s 320x240 -r 25.00  -async 1 -t 00:00:"+duracion+" "+recordNameFull,stderr=subprocess.STDOUT,shell=True)			
-
-			client_sock.send("Grabacion finalizada :D")
+			#grabarStreaming = subprocess.check_output("ffmpeg  -i "+ urlFinal +"  -s 640x480  -r 15  -t 00:00:"+duracion+" "+recordNameFull,stderr=subprocess.STDOUT,shell=True)			
+			#pruebas pool front
+			# 150 
+			grabarStreaming = subprocess.check_output("avconv -i "+ urlFinal +"  -s 320x240 -r 24 -vframes 150 -t 00:00:"+duracion+" "+recordNameFull,stderr=subprocess.STDOUT,shell=True)			
+			client_sock.send("Grabacion finalizada :D")   
 			print "\nGrabacion finalizada :D"
- 
-			client_sock.send("Procesando video...")
+               
+			client_sock.send("Procesando video...") 
 			print "\nProcesando video..."
 
 			  
