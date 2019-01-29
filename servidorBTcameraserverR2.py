@@ -149,14 +149,6 @@ client_sock,address = server_sock.accept()
 print "Conectado con dispositivo",address
 client_sock.send("Conexion exitosa.")
 
-def limparHB():
-	try:
-		#Matamos las ventanas del Streaming
-		matarVentanasStreaming = subprocess.check_output("./KillTerminalsV2.sh",stderr=subprocess.STDOUT,shell=True)	
-		client_sock.send("HB limpia")									
-	except subprocess.CalledProcessError as e: 
-		print "No estan corriendo los PIDS del streaming"  
-		client_sock.send("HB se encuentra limpia ")	  
 
 	 
 while True:
@@ -165,30 +157,17 @@ while True:
 		data = client_sock.recv(1024)
 		valor=data[0:-2]#Para que funcione con app del playstore
 		#valor=data
-		"""This sentence (if) fix bug -Invalid arguments-
-			22/01/2019
-			CREATED.
-			@Antonio Mtz.
-		 """
-		listaParametros= valor.split(",")
-		if(len(listaParametros)==4):
-
-			opcion,duracion,recordName,mail = valor.split(",")
-			print "***********************************"
-			print "******** Datos recibidos **********"
-			print "***********************************"		
-			print "Opcion: %s"%opcion
-			print "Duracion: %s"%duracion
-			print "Nombre: %s"%recordName
-			dateT = obtenerFecha()   
-			print "Correo: %s"%mail
-			tam = len(valor)
-			print "Tam: %s" %tam
-		else:
-			opcion=99#Invalid option
-			client_sock.send("Opcion invalida.Intente de nuevo por favor.")
-            
-
+		opcion,duracion,recordName,mail = valor.split(",")
+		print "***********************************"
+		print "******** Datos recibidos **********"
+		print "***********************************"		
+		print "Opcion: %s"%opcion
+		print "Duracion: %s"%duracion
+		print "Nombre: %s"%recordName
+		dateT = obtenerFecha()
+		print "Correo: %s"%mail
+		tam = len(valor)
+		print "Tam: %s" %tam
 			
 	except bluetooth.btcommon.BluetoothError as error:
 		print "No hay conexion bluetooth\n\n\n"
@@ -233,15 +212,13 @@ while True:
 			print "******* Subiendo "+recordNameFull+".... ********"
 			print "************************************"
 			time.sleep(1)
-			client_sock.send("\nSubiendo ...")
-			#client_sock.send("\nSubiendo "+recordNameFull+"...")				   
+			client_sock.send("\nSubiendo "+recordNameFull+"...")			   
 			#resT = subprocess.check_output(["curl", "-F","file=@/home/pi/HB/record.wav; type=audio/wav", "http://93.104.215.239:8010/upFromRasp"])
 			time.sleep(2)
 			resT = subprocess.check_output(["curl", "-F","file=@/home/pi/HB/"+recordNameFull+"; type=audio/wav", "http://93.104.215.239:8013/upFromRasp"])#audio
 			print "Response server python: "+resT
 			if  resT == '200':
-				#client_sock.send("Archivo "+recordNameFull+" subido exitosamente!!!")
-				client_sock.send("Archivo  subido exitosamente!!!")
+				client_sock.send("Archivo "+recordNameFull+" subido exitosamente!!!")
 				print "Archivo "+recordNameFull+" subido exitosamente!!!"
 				print "\n***************************************************"
 				print "******* Registrando "+recordNameFull+" **************"
@@ -251,49 +228,43 @@ while True:
 				resp = requests.post(urlRegistrarGrabacionEstetoscopio,userData)
 				print("Respuesta registro %s "%resp.json())
 				if resp.json() == 250:
-					client_sock.send("Archivo registrado exitosamente!!!")
-					#client_sock.send("Archivo "+recordNameFull+" registrado exitosamente!!!")
+					client_sock.send("Archivo "+recordNameFull+" registrado exitosamente!!!")
 					print "Archivo "+recordNameFull+" registrado exitosamente!!!"
 			
 					print "\n***************************************************"
 					print "******* Eliminando "+recordNameFull+" **************"
 								
 					respDelete = subprocess.check_output("rm "+recordNameFull,stderr=subprocess.STDOUT,shell=True)		
-					client_sock.send("Archivo eliminado de HealthBox")	
-					time.sleep(1)
-					client_sock.send("Response:"+result_OK)						
+					client_sock.send("Archivo "+recordNameFull+" eliminado de HealthBox")	
+                    			client_sock.send("Response:"+result_OK)						
 					print "Resp DElete>"+respDelete+"L"
 
 				else:
 					print "No se pudo registrar grabacion en la BD"
 					client_sock.send("No se pudo registrar grabacion en la BD")
-					client_sock.send("Error:"+result_ErrorDatabase)
+                    			client_sock.send("Error:"+result_ErrorDatabase)
 				print "*****************************************************"				
 
 			else:
 				client_sock.send("No se pudo subir archivo :(")
 				print "No se pudo subir archivo :("	
-				client_sock.send("Error:"+result_ErrorUpload)			
+                		client_sock.send("Error:"+result_ErrorUpload)			
 			print "************************************"
 			print "************************************"
 			
 		except subprocess.CalledProcessError as e:
 			client_sock.send("Han surgido errores en el proceso :(")
-			client_sock.send("Error:"+result_ErrorRecModule)
+            		client_sock.send("Error:"+result_ErrorRecModule)
 			print "Han surgido errores en el proceso :("		
 		#print "s = "+s
 		print "***********************************"		
 
-###########################################  
+###########################################
 ##### Iniciar Streaming Endoscopio ########
 ###########################################
-	
+
 	if  opcion == '2':#Inicializar Streaming para poder en el celular	
-		limparHB()
 		camera_is_connected=False
-
-
-		client_sock.send("Limpiando HB..")
 			
 		try:
 			#Matamos las ventanas del Streaming                 KillTerminalsV2
@@ -307,7 +278,14 @@ while True:
 
 		if(camera_is_connected==False):
 			continue
-
+		try:
+			#Matamos las ventanas del Streaming                 KillTerminalsV2
+			matarVentanasStreaming = subprocess.check_output("./KillTerminalsV2.sh",stderr=subprocess.STDOUT,shell=True)	
+			client_sock.send("Limpiando HB")									
+		except subprocess.CalledProcessError as e: 
+			print "No estan corriendo los PIDS del streaming"  
+			client_sock.send("No se pudo limpiar HB ")	  
+ 
  
 		try:
 			print "Inicializando servidor de streaming"		
@@ -339,7 +317,7 @@ while True:
 			client_sock.send("Response:15") 	
 
 		except subprocess.CalledProcessError as e:
-			limparHB()
+
 			client_sock.send("Han surgido al iniciar streaming :(")
 			time.sleep(2) 
 			client_sock.send("Error:"+result_ErrorInitEndoscope)
@@ -353,6 +331,15 @@ while True:
  	if  opcion == '3':#Endoscopio 	
 
 
+ 		try:
+			#Matamos las ventanas del Streaming                 KillTerminalsV2
+			check_camera_is_connected = subprocess.check_output("ls /dev/video0",stderr=subprocess.STDOUT,shell=True)	
+			print(check_camera_is_connected)
+			camera_is_connected=True
+		except subprocess.CalledProcessError as e: 
+			print "Camara esta desconectada"
+			client_sock.send("La camara no se encuentra disponible")  
+			isConnectedCam=False
 
 		if(camera_is_connected==False):
 			continue
@@ -360,7 +347,7 @@ while True:
  		print "Entrando al endoscopio"
 
 #################################################
- 
+
 		try:
 		
 
@@ -384,23 +371,24 @@ while True:
 			#grabarStreaming = subprocess.check_output("ffmpeg  -i "+ urlFinal +"  -s 640x480  -r 15  -t 00:00:"+duracion+" "+recordNameFull,stderr=subprocess.STDOUT,shell=True)			
 			#pruebas pool front
 			# 150 
-			grabarStreaming = subprocess.check_output("avconv  -r 25  -t 00:00:"+duracion+"  -i "+ urlFinal +" -framerate 25 -threads 4 -s 640x480  -an  -vcodec libx264 -preset ultrafast "+recordNameFull,stderr=subprocess.STDOUT,shell=True)			
+			grabarStreaming = subprocess.check_output("avconv -i "+ urlFinal +"  -s 720x480 -r 15 -vframes 150  "+recordNameFull,stderr=subprocess.STDOUT,shell=True)			
 			client_sock.send("Grabacion finalizada :D")   
-			print "\nGrabacion finalizada :D"      
+			print "\nGrabacion finalizada :D"
+               
 			client_sock.send("Procesando video...") 
-			print "\nProcesando video..." 
+			print "\nProcesando video..."
 
 			  
-			time.sleep(5)#Tiempo para que se guarden las cabeceras 
+			time.sleep(5)#Tiempo para que se guarden las cabeceras
 
- 
+
 
 			print "************************************"
 			print "******* Subiendo "+recordNameFull+".... ********"
 			print "************************************"
 			client_sock.send("\nSubiendo archivo...")	
 			time.sleep(2)	
-			client_sock.send("\nSubiendo ...")						
+			client_sock.send("\nSubiendo "+recordNameFull+"...")						
 			resT = subprocess.check_output(["curl", "-F","file=@/home/pi/HB/"+recordNameFull+"; type=video/mp4", "http://93.104.215.239:8012/upFromRasp"])#video					
 			print "Response server python upload: "+resT
 			if  resT == '200':
@@ -409,7 +397,7 @@ while True:
 				print "Archivo "+recordNameFull+" subido exitosamente!!!"
 				print "\n***************************************************"
 				print "******* Registrando "+recordNameFull+" **************"
-				client_sock.send("Registrando  en la BD...")							
+				client_sock.send("Registrando "+recordNameFull+" en la BD...")							
 				userData = {"mail":mail,"date":dateT,"url":urlEndoUploads+recordNameFull}
 				print "Datos a registrar en BD: "+str(userData)
 				resp = requests.post(urlRegistrarGrabacionEndoscopio,userData)
@@ -417,45 +405,40 @@ while True:
 					print("Respuesta registro %s "%resp.json())
 					if resp.json() == 250:
 						#client_sock.send("Archivo "+recordNameFull+" registrado exitosamente!!!")
-						limparHB()
-						time.sleep(1)
-						client_sock.send("Archivo registrado exitosamente!!!")
-						
+  						client_sock.send("Archivo registrado exitosamente!!!")
+
 						print "Archivo "+recordNameFull+" registrado exitosamente!!!"
 						
 						print "\n***************************************************"
 						print "******* Eliminando "+recordNameFull+" **************"
 						time.sleep(1)
-						client_sock.send("Response:"+result_OK)	
-						time.sleep(1)		
-						respDelete = subprocess.check_output("rm "+recordNameFull,stderr=subprocess.STDOUT,shell=True)		
-						client_sock.send("Archivo salvado.")	
-
-						print "Resp DElete>"+respDelete
+						client_sock.send("Response:"+result_OK)		
+						#respDelete = subprocess.check_output("rm "+recordNameFull,stderr=subprocess.STDOUT,shell=True)		
+						#client_sock.send("Archivo "+recordNameFull+" eliminado de HealthBox")							
+						#print "Resp DElete>"+respDelete+"L"
 						
 					
 					else:
 						print "No se pudo registrar grabacion en la BD"
 						client_sock.send("No se pudo registrar grabacion en la BD")
 						time.sleep(2)
-						client_sock.send("Error:"+result_ErrorDatabase)					
+                        			client_sock.send("Error:"+result_ErrorDatabase)					
 											
 					
 				except ValueError as e:
 					print "Han surgido problemas al insertar en la BD o al eliminar archivos"
 					client_sock.send("Han surgido problemas al insertar en la BD  o al eliminar archivos")
 					time.sleep(2)
-					client_sock.send("Error:"+result_ErrorDatabaseFile)	
-					limparHB()
+                    			client_sock.send("Error:"+result_ErrorDatabaseFile)	
+					
 				
 				print "*****************************************************"				
 
 			else:
 				client_sock.send("No se pudo subir archivo :(")
 				time.sleep(2)
-				client_sock.send("Error:"+result_ErrorUpload)	
-				print "No se pudo subir archivo :("
-				limparHB()				
+                		client_sock.send("Error:"+result_ErrorUpload)	
+				print "No se pudo subir archivo :("				
 			print "************************************"
 			print "************************************"
 			
@@ -464,7 +447,6 @@ while True:
 			time.sleep(2)
 			client_sock.send("Error:"+result_ErrorEndoscopeModule)	
 			print "Han surgido errores en el proceso :("	+ e.output	
-			limparHB()
 
  
 ###############################################
@@ -538,12 +520,12 @@ while True:
 								client_sock.send("URLimg--"+urlReaderUploads+recordNameFull)
 								time.sleep(2)
 								client_sock.send("Response:"+result_OK)	
-								print "\n***************************************************"
-								print "******* Eliminando "+recordNameFull+" **************"
-								time.sleep(1)	
-								respDelete = subprocess.check_output("rm "+recordNameFull,stderr=subprocess.STDOUT,shell=True)		
-								client_sock.send("Archivo eliminado de HealthBox")							
-								print "Resp DElete>"+respDelete 
+								#print "\n***************************************************"
+								#print "******* Eliminando "+recordNameFull+" **************"
+								 	
+								#respDelete = subprocess.check_output("rm "+recordNameFull,stderr=subprocess.STDOUT,shell=True)		
+								#client_sock.send("Archivo "+recordNameFull+" eliminado de HealthBox")							
+								#print "Resp DElete>"+respDelete+"L"
 
 							else:
 								print "No se pudo registrar grabacion en la BD"
@@ -569,7 +551,7 @@ while True:
 
 			client_sock.send("Han surgido en el reader:(")
 			time.sleep(2)
-			client_sock.send("Error:"+result_ErrorReaderModule)
+            		client_sock.send("Error:"+result_ErrorReaderModule)
 			print "Han surgido errores en el Reader:("		
 			
 		#if os.path.isfile(myphoto):
@@ -633,7 +615,7 @@ while True:
 			print "Ejecutando ECG...." 
 			client_sock.send("ECG...")	
 			time.sleep(2)
-			client_sock.send("Response:"+result_OK)	
+            		client_sock.send("Response:"+result_OK)	
 			##subprocess.call("python ECG_rasp.py",stderr=subprocess.STDOUT,shell=True,timeout=duracion)	
 			##os.system("python ECG_rasp.py 10")	
 			#argument = '...'
@@ -648,8 +630,8 @@ while True:
 			#client_sock.send("ECG finalizado")
 			#print "ECG FINALIZADO"	
 		except subprocess.CalledProcessError as e:
-			client_sock.send("Error:"+result_ErrorECGModule)
-			time.sleep(2)
+            		client_sock.send("Error:"+result_ErrorECGModule)
+            		time.sleep(2)
 			client_sock.send("Error al ejecutar ecg.")
 			print "Han surgido un error al ejecutar el ecg."
 
@@ -687,10 +669,10 @@ while True:
 
 
 
-	if  opcion == '8':  
+	if  opcion == '8':
 		try:
 			#MGet ip raspberry
-			getIP = subprocess.check_output(["hostname", "-I"])  
+			getIP = subprocess.check_output(["hostname", "-I"])
 			getIP=getIP.rstrip('\n')
 			if(getIP.find(" ")):
 				segmentos=getIP.split(" ")
@@ -702,7 +684,7 @@ while True:
 			print "Error al obtener ip"
 			client_sock.send("Error al obtener ip.")
 			time.sleep(2)
-			client_sock.send("Error:"+result_ErrorGetIP)
+            		client_sock.send("Error:"+result_ErrorGetIP)
 	
 	
 ###########################################
@@ -729,7 +711,7 @@ while True:
 
 
 	if  opcion == '20':
-		client_sock.send("Limpiando HB..") 
+		client_sock.send("Limpiando HB..")
 
 		try:
 			#Matamos las ventanas del Streaming
@@ -737,7 +719,7 @@ while True:
 			client_sock.send("HB limpia")									
 		except subprocess.CalledProcessError as e: 
 			print "No estan corriendo los PIDS del streaming"  
-			client_sock.send("HB se encuentra limpia ")	  
+			client_sock.send("NO se pudo limpiar HB ")	  
 
 
 

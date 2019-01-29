@@ -371,7 +371,7 @@ while True:
 			#grabarStreaming = subprocess.check_output("ffmpeg  -i "+ urlFinal +"  -s 640x480  -r 15  -t 00:00:"+duracion+" "+recordNameFull,stderr=subprocess.STDOUT,shell=True)			
 			#pruebas pool front
 			# 150 
-			grabarStreaming = subprocess.check_output("avconv -i "+ urlFinal +"  -s 320x240 -r 24 -vframes 150 -t 00:00:"+duracion+" "+recordNameFull,stderr=subprocess.STDOUT,shell=True)			
+			grabarStreaming = subprocess.check_output("avconv -i "+ urlFinal +"  -s 640x240 -r 24 -vframes 240 -t 00:00:"+duracion+" "+recordNameFull,stderr=subprocess.STDOUT,shell=True)			
 			client_sock.send("Grabacion finalizada :D")   
 			print "\nGrabacion finalizada :D"
                
