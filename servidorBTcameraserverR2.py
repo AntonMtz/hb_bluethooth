@@ -34,10 +34,10 @@ server_sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
 valor = ""
 port = 1
 opcion = ""
-urlRegistrarGrabacionEstetoscopio = "http://93.104.215.239/esteto/DATABASE/uploadRegisterRasph.php"
-urlRegistrarGrabacionEndoscopio = "http://93.104.215.239/endoscope/DATABASE/uploadRegisterRasph.php"
-urlRegistrarGrabacionReader = "http://93.104.215.239/reader/DATABASE/uploadRegisterRasph.php"
-urlRegistrarGrabacionECG = "http://93.104.215.239/ecg_mqtt/DATABASE/uploadRegisterRasph.php"
+urlRegistrarGrabacionEstetoscopio = "http://159.89.133.63/esteto/DATABASE/uploadRegisterRasph.php"
+urlRegistrarGrabacionEndoscopio = "http://159.89.133.63/endoscope/DATABASE/uploadRegisterRasph.php"
+urlRegistrarGrabacionReader = "http://159.89.133.63/reader/DATABASE/uploadRegisterRasph.php"
+urlRegistrarGrabacionECG = "http://159.89.133.63/ecg_mqtt/DATABASE/uploadRegisterRasph.php"
 
 
 #urlRegistrarGrabacionEstetoscopio = "http://vid.botonmedico.com/guardarEnArchivoPHP.php"
@@ -79,9 +79,9 @@ result_ErrorReaderModule="190"
 
 #####################################################
 #Subir archivos al servidor
-#resT = subprocess.check_output(["curl", "-F","file=@/home/pi/output2.mp4; type=video/mp4", "http://93.104.215.239:8012/upFromRasp"])#video
-#resT = subprocess.check_output(["curl", "-F","file=@/home/pi/HB/record.wav; type=audio/wav", "http://93.104.215.239:8013/upFromRasp"])#audio
-#resT = subprocess.check_output(["curl", "-F","file=@/home/pi/HB/apple.jpg", "http://93.104.215.239:8011/upFromRasp"])#imagenes
+#resT = subprocess.check_output(["curl", "-F","file=@/home/pi/output2.mp4; type=video/mp4", "http://159.89.133.63:8012/upFromRasp"])#video
+#resT = subprocess.check_output(["curl", "-F","file=@/home/pi/HB/record.wav; type=audio/wav", "http://159.89.133.63:8013/upFromRasp"])#audio
+#resT = subprocess.check_output(["curl", "-F","file=@/home/pi/HB/apple.jpg", "http://159.89.133.63:8011/upFromRasp"])#imagenes
 #print "Response server python: "+resT
 
 '''
@@ -213,9 +213,9 @@ while True:
 			print "************************************"
 			time.sleep(1)
 			client_sock.send("\nSubiendo "+recordNameFull+"...")			   
-			#resT = subprocess.check_output(["curl", "-F","file=@/home/pi/HB/record.wav; type=audio/wav", "http://93.104.215.239:8010/upFromRasp"])
+			#resT = subprocess.check_output(["curl", "-F","file=@/home/pi/HB/record.wav; type=audio/wav", "http://159.89.133.63:8010/upFromRasp"])
 			time.sleep(2)
-			resT = subprocess.check_output(["curl", "-F","file=@/home/pi/HB/"+recordNameFull+"; type=audio/wav", "http://93.104.215.239:8013/upFromRasp"])#audio
+			resT = subprocess.check_output(["curl", "-F","file=@/home/pi/HB/"+recordNameFull+"; type=audio/wav", "http://159.89.133.63:8013/upFromRasp"])#audio
 			print "Response server python: "+resT
 			if  resT == '200':
 				client_sock.send("Archivo "+recordNameFull+" subido exitosamente!!!")
@@ -389,7 +389,7 @@ while True:
 			client_sock.send("\nSubiendo archivo...")	
 			time.sleep(2)	
 			client_sock.send("\nSubiendo "+recordNameFull+"...")						
-			resT = subprocess.check_output(["curl", "-F","file=@/home/pi/HB/"+recordNameFull+"; type=video/mp4", "http://93.104.215.239:8012/upFromRasp"])#video					
+			resT = subprocess.check_output(["curl", "-F","file=@/home/pi/HB/"+recordNameFull+"; type=video/mp4", "http://159.89.133.63:8012/upFromRasp"])#video					
 			print "Response server python upload: "+resT
 			if  resT == '200':
 				#client_sock.send("Archivo "+recordNameFull+" subido exitosamente!!!")
@@ -496,7 +496,7 @@ while True:
                         print "Tipo de prueba: "+tipo_prueba; 
 		    	if  tipo_envio == '1':  
 				client_sock.send("Subiendo archivo.")
-                		resT=subprocess.check_output(["curl", "-F","file=@/home/pi/HB/"+recordNameFull,"http://93.104.215.239:8009/upFromRasp"])
+                		resT=subprocess.check_output(["curl", "-F","file=@/home/pi/HB/"+recordNameFull,"http://159.89.133.63:8009/upFromRasp"])
                 		print "Response server python: "+resT
                 
                 		if  resT == '200':

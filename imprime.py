@@ -85,7 +85,7 @@ else:#error en tarjeta 0 INTENTANDOI ACCEDER A TARJETA 1
 	faseLectura=1 #Fase de lectura exitosa
 
 printZone("Ejecutando subida")
-command = "curl  -F  'file=@/home/pi/HB/anto2.wav;type=audio/wav' http://93.104.215.239:8013/upFromRasp"
+command = "curl  -F  'file=@/home/pi/HB/anto2.wav;type=audio/wav' http://159.89.133.63:8013/upFromRasp"
 			
 process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 

@@ -24,7 +24,7 @@ start_time = time.time()
 
 #mqtt implementation
 mqttc = mqtt.Client("python_pub")
-mqttc.connect("93.104.215.239",1883,60)
+mqttc.connect("159.89.133.63",1883,60)
 mqttc.loop_start()
 count = 0
 #end implelmentation
@@ -88,7 +88,7 @@ f=open(mail+"_"+date+"_maestroSesion.txt",'a+')
 
 
 
-urlRegistrarGrabacionECG = "http://93.104.215.239/ecg_mqtt/DATABASE/uploadRegisterRasph.php"
+urlRegistrarGrabacionECG = "http://159.89.133.63/ecg_mqtt/DATABASE/uploadRegisterRasph.php"
 userData = {"mail":mail,"date":date,"maestro_sesion":maestro_sesion,"diagnosis_sesion":diagnosis_sesion,"maestro_tem":maestro_tem,"diagnosis_tem":diagnosis_tem}
 print ("Datos a registrar en BD: "+datasJson["Mail"] +" en "+ datasJson["Date"] )
 resp = requests.post(urlRegistrarGrabacionECG,userData)   
@@ -167,9 +167,9 @@ print("--- %s seconds ---" % (time.time() - start_time))
 
 #time.sleep(1)
 
-#os.sytem('curl -F'+file+' -X PUT "http://93.104.215.239:8020/upFromRasp/'+workfile.txt+'?op=CREATE"')
+#os.sytem('curl -F'+file+' -X PUT "http://159.89.133.63:8020/upFromRasp/'+workfile.txt+'?op=CREATE"')
 
-#subprocess.call(["curl", "-F","file=@/home/pi/Documents/workfile.txt","http://93.104.215.239:8010/upFromRasp"])
+#subprocess.call(["curl", "-F","file=@/home/pi/Documents/workfile.txt","http://159.89.133.63:8010/upFromRasp"])
 
 #if os.path.isfile(myfile):
 #    os.remove(myfile)

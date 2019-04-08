@@ -24,7 +24,7 @@ class SampleApp(tk.Tk):
         tk.Tk.__init__(self)
         self._frame = None    
         self.switch_frame(StartPage)
-	btn_text = tk.StringVar()
+    
 
 
     def switch_frame(self, frame_class):
@@ -40,7 +40,7 @@ class SampleApp(tk.Tk):
  
 class StartPage(tk.Frame):
     def __init__(self, master,
-                 width=500, height=500): 
+                 width=600, height=500): 
         tk.Frame.__init__(self, master, width= width, height=height)
         mycolor = '#%02x%02x%02x' % (64, 204, 208)  # set your favourite rgb color
         mycolor2 = '#00CFC0'  # or use hex if you prefer 
@@ -48,32 +48,32 @@ class StartPage(tk.Frame):
         w = 1  # or use hex if you prefer 
 
         start_label = tk.Label(self,relief=GROOVE , highlightthickness=w,highlightbackground=mycolor3, bg='#004B61', fg='white',font=("Helvetica", 16), text="Sistema Health Box",height=2,width=40).grid(row=0,column=0,columnspan=3,sticky=W+E+N+S)
-        page_1_button = tk.Button(self,relief=GROOVE , highlightthickness=w,highlightbackground=mycolor3,bg='white', fg=mycolor2,activebackground=mycolor2,activeforeground='white',font=("Helvetica", 11), text="Emparejar Bluetooth",height=3,width=10,command=lambda: master.switch_frame(PageOne)).grid(row=1,column=0,sticky=W+E+N+S)
+        #page_1_button = tk.Button(self,relief=GROOVE , highlightthickness=w,highlightbackground=mycolor3,bg='white', fg=mycolor2,activebackground=mycolor2,activeforeground='white',font=("Helvetica", 11), text="Emparejar Bluetooth",height=3,width=10,command=lambda: master.switch_frame(PageOne)).grid(row=1,column=0,sticky=W+E+N+S)
 
-
-        offWIFI = tk.Button(self,bg='white', relief=GROOVE , highlightthickness=w,highlightbackground=mycolor3, highlightcolor=mycolor2 , fg=mycolor2,activebackground=mycolor2,activeforeground='white',font=("Helvetica", 11), text="Apagar Wi-Fi",height=3,width=10,command=powerOFFWIFI).grid(row=1,column=1, sticky=W+E+N+S )
-        onWIFI = tk.Button(self,bg='white',  relief=GROOVE ,  highlightthickness=w, highlightbackground=mycolor3,highlightcolor=mycolor2 , fg=mycolor2,activebackground=mycolor2,activeforeground='white',font=("Helvetica", 11), text="Encender Wi-Fi",height=3 ,width=10,command=powerONWIFI).grid(row=1,column=2, sticky=W+E+N+S)
+        offWIFI = tk.Button(self,bg='white', relief=GROOVE , highlightthickness=w,highlightbackground=mycolor3, highlightcolor=mycolor2 , fg=mycolor2,activebackground=mycolor2,activeforeground='white',font=("Helvetica", 11), text="Internet por cable",height=3,width=10,command=powerOFFWIFI).grid(row=1,column=0, sticky=W+E+N+S )
+        onWIFI = tk.Button(self,bg='white',  relief=GROOVE ,  highlightthickness=w, highlightbackground=mycolor3,highlightcolor=mycolor2 , fg=mycolor2,activebackground=mycolor2,activeforeground='white',font=("Helvetica", 11), text="Internet por Wi-Fi",height=3 ,width=10,command=powerONWIFI).grid(row=1,column=1,columnspan=2,sticky=W+E+N+S)
       
     
  
         #page_2_button = tk.Button(self,relief=GROOVE , highlightthickness=w,highlightbackground=mycolor3, text="Iniciar Servidor",command=lambda: master.switch_frame(PageTwo)).grid(row=1,column=1,sticky=W+E+N+S)
-        page_3_button = tk.Button(self,relief=GROOVE , highlightthickness=w,highlightbackground=mycolor3, text="Conectar Wifi",
-                                  command=lambda: master.switch_frame(PageThree))
+        page_3_button = tk.Button(self,relief=GROOVE , highlightthickness=w,highlightbackground=mycolor3, text="Conectar Wifi", command=lambda: master.switch_frame(PageThree))
         
 
-	#initBTserver_button=tk.Button(self,relief=GROOVE , highlightthickness=w,highlightbackground=mycolor3, bg='white', fg=mycolor2,activebackground=mycolor2, activeforeground='white',font=("Helvetica", 14), text="Iniciar BT",height=5, command=initBTserver,width=10).grid(row=2,column=2,columnspan=1, rowspan=1,  sticky=W+E+N+S)
+        #initBTserver_button=tk.Button(self,relief=GROOVE , highlightthickness=w,highlightbackground=mycolor3, bg='white', fg=mycolor2,activebackground=mycolor2, activeforeground='white',font=("Helvetica", 14), text="Iniciar BT",height=5, command=initBTserver,width=10).grid(row=2,column=2,columnspan=1, rowspan=1,  sticky=W+E+N+S)
 
-        finishBTsever_button=tk.Button(self, relief=GROOVE , highlightthickness=w,highlightbackground=mycolor3,bg='white', fg=mycolor2,activebackground=mycolor2, activeforeground='white',font=("Helvetica", 14), text="Limpiar",height=5, command=killAllTerminals,width=10).grid(row=2,column=2,  sticky=W+E+N+S)
-        killAll_button=tk.Button(self,relief=GROOVE ,  highlightthickness=w,highlightbackground=mycolor3,bg='white', fg=mycolor2,activebackground=mycolor2,activeforeground='white',font=("Helvetica", 14), text="Reiniciar bluetooth", command=stopBTserver,height=5).grid(row=2,column=0,columnspan=2, sticky=W+E+N+S)
+        #finishBTsever_button=tk.Button(self, relief=GROOVE , highlightthickness=w,highlightbackground=mycolor3,bg='white', fg=mycolor2,activebackground=mycolor2, activeforeground='white',font=("Helvetica", 14), text="Finalizar BT",height=5, command=stopBTserver,width=10).grid(row=2,column=2,  sticky=W+E+N+S)
+        #killAll_button=tk.Button(self,relief=GROOVE ,  highlightthickness=w,highlightbackground=mycolor3,bg='white', fg=mycolor2,activebackground=mycolor2,activeforeground='white',font=("Helvetica", 14), text="Reiniciar bluetooth", command=killAllTerminals,height=5).grid(row=2,column=0,columnspan=3, sticky=W+E+N+S)
+        killAll_button=tk.Button(self,relief=GROOVE ,  highlightthickness=w,highlightbackground=mycolor3,bg='white', fg=mycolor2,activebackground=mycolor2,activeforeground='white',font=("Helvetica", 14), text="Reconectar Health Box", command=rebootHB,height=5).grid(row=2,column=0,columnspan=4, sticky=W+E+N+S)
+
         reboot_button = tk.Button(self, relief=GROOVE , bg='white', fg=mycolor2,activebackground=mycolor2,activeforeground='white',font=("Helvetica", 11), text="Reiniciar HealthBox",height=4, command=restart).grid(row=4,column=0,sticky=W+E+N+S)
 
-        off_button = tk.Button(self, relief=GROOVE , highlightthickness=w,highlightbackground=mycolor3,bg='white', fg=mycolor2,activebackground=mycolor2,activeforeground='white',font=("Helvetica", 11), text="Apagar HealthBox",height=3, command=shutdown).grid(row=4,column=1,sticky=W+E+N+S,columnspan=2)
-
+        off_button = tk.Button(self, relief=GROOVE , highlightthickness=w,highlightbackground=mycolor3,bg='white', fg=mycolor2,activebackground=mycolor2,activeforeground='white',font=("Helvetica", 11), text="Apagar HealthBox",height=3, command=shutdown).grid(row=4,column=1,columnspan=2,sticky=W+E+N+S)
+      
  
 class PageOne(tk.Frame):
     def __init__(self, master):
-        tk.Frame.__init__(self, master)  
-
+        tk.Frame.__init__(self, master)
+ 
         bl = bluetoothctl.Bluetoothctl() 
         bl.clear_scan()
         bl.start_scan()
@@ -218,6 +218,7 @@ def initBTserver():
     print "tk Ejecutando ECG...." 
 
 
+
     return 0
 
 def stopBTserver(): 
@@ -247,29 +248,54 @@ def powerONWIFI():
     return 0
 
 
-def killAllTerminals(): 
+def rebootHB():
+
+    #1.Kill all terminals
     try:    
        matarVentanasStreaming = subprocess.check_output("/home/pi/HB/KillTerminalsV2.sh",stderr=subprocess.STDOUT,shell=True) 
        print "Limpiando ventanas..."  
     except subprocess.CalledProcessError as e:
        print "ERROR limpiar ventanas...."
 
+    #2.Kill bluetooth service
+    try:    
+       matarVentanasStreaming = subprocess.check_output("/home/pi/HB/KillTerminalsBT.sh",stderr=subprocess.STDOUT,shell=True) 
+       print "Limpiando ventanas..."     
+    except subprocess.CalledProcessError as e:
+       print "ERROR limpiar ventanas...."
+ 
+
+    #3.Reboot bluetooth service
+    try:
+        ejecutarServidor = subprocess.check_output("lxterminal --command='/bin/bash --init-file /home/pi/HB/ejecutarBTserver.sh'" , stderr=subprocess.STDOUT,universal_newlines=True,shell=True)    
+        print "Relanzado BT SERVER...."  
+    except subprocess.CalledProcessError as e:
+        print "ERROR al relanzar BT SERVER...."
+    return 0
+ 
+
+
+
+def killAllTerminals(): 
+    try:    
+       matarVentanasStreaming = subprocess.check_output("/home/pi/HB/KillTerminalsV2.sh",stderr=subprocess.STDOUT,shell=True) 
+       print "Limpiando ventanas..."  
+    except subprocess.CalledProcessError as e:
+       print "ERROR limpiar ventanas...."
     return 0
    
  
-
+ 
  
 
-  
+   
 if __name__ == "__main__":
     initBTserver();  
+    #powerOFFWIFI();
     mycolor2 = '#004B61'  # or use hex if you prefer 
     app = SampleApp()
-    app.geometry("500x400")
+    app.geometry("550x400")
     app.attributes("-fullscreen", True)
     app.wm_attributes("-topmost", 1)
     app.configure(bg=mycolor2)
-
-
-
     app.mainloop()
